@@ -516,6 +516,7 @@ class SeedElectrumMnemonicStartView(View):
 ****************************************************************************"""
 class SeedOptionsView(View):
     SCAN_PSBT = ButtonOption("Scan PSBT", SeedSignerIconConstants.QRCODE)
+    MAKE_COFFEE = ButtonOption("Make Coffee")
     VERIFY_ADDRESS = ButtonOption("Verify Addr")
     EXPORT_XPUB = ButtonOption("Export Xpub")
     EXPLORER = ButtonOption("Address Explorer")
@@ -568,6 +569,7 @@ class SeedOptionsView(View):
             button_data.append(self.VERIFY_ADDRESS)
 
         button_data.append(self.SCAN_PSBT)
+        button_data.append(self.MAKE_COFFEE)
         
         if self.settings.get_value(SettingsConstants.SETTING__XPUB_EXPORT) == SettingsConstants.OPTION__ENABLED:
             button_data.append(self.EXPORT_XPUB)
@@ -598,6 +600,9 @@ class SeedOptionsView(View):
             from seedsigner.views.scan_views import ScanPSBTView
             self.controller.psbt_seed = self.controller.get_seed(self.seed_num)
             return Destination(ScanPSBTView)
+    
+        elif button_data[selected_menu_num] == self.MAKE_COFFEE:
+            return Destination(MakeCoffeeStartView, view_args=dict(seed_num=self.seed_num))
 
         elif button_data[selected_menu_num] == self.VERIFY_ADDRESS:
             return Destination(SeedAddressVerificationView, view_args=dict(seed_num=self.seed_num))
@@ -657,6 +662,42 @@ class SeedBackupView(View):
 
         elif button_data[selected_menu_num] == self.EXPORT_SEEDQR:
             return Destination(SeedTranscribeSeedQRFormatView, view_args={"seed_num": self.seed_num})
+
+
+
+"""****************************************************************************
+    Making Coffee flow
+****************************************************************************"""
+class MakeCoffeeStartView(View):
+    BLACK = ButtonOption("Black Coffee")
+    ESPRESSO = ButtonOption("Espresso")
+    LATTE = ButtonOption("Latte")
+
+    def __init__(self, seed_num: int):
+        super().__init__()
+        self.seed_num = seed_num
+
+
+    def run(self):
+        button_data = [self.BLACK, self.ESPRESSO, self.LATTE]
+
+        selected_menu_num = self.run_screen(
+            ButtonListScreen,
+            title=_("Coffee Type"),
+            button_data=button_data
+        )
+
+        if selected_menu_num == RET_CODE__BACK_BUTTON:
+            return Destination(BackStackView)
+
+        elif button_data[selected_menu_num] == self.ESPRESSO:
+            raise NotYetImplementedView("Don't own an espresso machine yet.")
+        
+        elif button_data[selected_menu_num] == self.BLACK:
+            # TODO: DO SOME IMPORTANT WORK HERE, THEN ROUTE OUT SOMEWHERE
+            pass
+
+        return Destination(SeedExportXpubScriptTypeView, view_args={"seed_num": self.seed_num, "sig_type": button_data[selected_menu_num].return_data})
 
 
 

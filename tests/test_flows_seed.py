@@ -28,7 +28,7 @@ class TestSeedFlows(FlowTest):
             FlowStep(MainMenuView, button_data_selection=MainMenuView.SCAN),
             FlowStep(scan_views.ScanView, before_run=load_seed_into_decoder),  # simulate read SeedQR; ret val is ignored
             FlowStep(seed_views.SeedFinalizeView, button_data_selection=seed_views.SeedFinalizeView.FINALIZE),
-            FlowStep(seed_views.SeedOptionsView),
+            FlowStep(seed_views.SeedExportXpubCoordinatorView)
         ])
 
 
@@ -53,6 +53,18 @@ class TestSeedFlows(FlowTest):
             FlowStep(seed_views.SeedOptionsView),
         ])
 
+
+    def test_make_coffee_flow(self):
+        """
+        """
+        self.run_sequence([
+            FlowStep(MainMenuView, button_data_selection=MainMenuView.SCAN),
+            FlowStep(scan_views.ScanView, before_run=load_seed_into_decoder),  # simulate read SeedQR; ret val is ignored
+            FlowStep(seed_views.SeedFinalizeView, button_data_selection=seed_views.SeedFinalizeView.FINALIZE),
+            FlowStep(seed_views.SeedOptionsView, button_data_selection=seed_views.SeedOptionsView.MAKE_COFFEE),
+            FlowStep(seed_views.MakeCoffeeStartView, button_data_selection=seed_views.MakeCoffeeStartView.BLACK),
+            FlowStep(seed_views.SeedExportXpubScriptTypeView, button_data_selection=MainMenuView.SCAN),
+        ])
 
     def test_mnemonic_entry_flow(self):
         """
