@@ -52,6 +52,7 @@ class SettingsConstants:
     LOCALE__FRENCH = "fr"
     LOCALE__GERMAN = "de"
     LOCALE__HEBREW = "he"
+    LOCALE__ITALIAN = "it"
     LOCALE__JAPANESE = "ja"
     LOCALE__KOREAN = "kr"
     LOCALE__PORTUGUESE = "pt"
@@ -65,6 +66,7 @@ class SettingsConstants:
         # (LOCALE__FRENCH, "Français"),
         # (LOCALE__GERMAN, "Deutsch"),
         # (LOCALE__HEBREW, "Hebrew"),
+        (LOCALE__ITALIAN, "Italiano"),
         # (LOCALE__JAPANESE, "Japanese"),
         # (LOCALE__KOREAN, "Korean"),
         # (LOCALE__PORTUGUESE, "Português"),
